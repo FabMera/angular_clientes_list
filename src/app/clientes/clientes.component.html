@@ -14,12 +14,13 @@
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
-          <th>id</th>
-          <th>nombre</th>
-          <th>apellido</th>
-          <th>email</th>
-          <th>fecha</th>
+          <th>Id</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Email</th>
+          <th>Fecha</th>
           <th>Editar</th>
+          <th>Eliminar</th>
         </tr>
       </thead>
       <tbody>
@@ -29,7 +30,8 @@
           <td>{{ cliente.apellido }}</td>
           <td>{{ cliente.email }}</td>
           <td>{{ cliente.createAt }}</td>
-          <td><button class="btn btn-primary" type="button" name="button" [routerLink]="['/clientes/form',cliente.id]">Editar</button></td>
+          <td class="text-center"><button class="btn btn-primary btn-sm" type="button" name="button" [routerLink]="['/clientes/form',cliente.id]">Editar</button></td>
+          <td class="text-center"><button class="btn btn-danger btn-sm" type="button" name="button" (click)="delete(cliente)" >Eliminar</button></td>
         </tr>
       </tbody>
     </table>

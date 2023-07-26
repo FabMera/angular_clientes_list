@@ -9,8 +9,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class ClienteService {
 
   private urlEndPoint: string = 'http://localhost:8080/clientes/listar';
-  private urdlEndPointPost: string = 'http://localhost:8080/clientes/crear';
+  private urlEndPointPost: string = 'http://localhost:8080/clientes/crear';
+  private urlEndPointPut: string = 'http://localhost:8080/clientes/update';
+  private urlEndPointDelete: string = 'http://localhost:8080/clientes';
 
+  //Cabeceras para el metodo post y put
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
   constructor(private http: HttpClient) { }
 
@@ -22,11 +25,19 @@ export class ClienteService {
 
   //Metodo para crear un cliente
   create(cliente: Cliente): Observable<Cliente> {
-    return this.http.post<Cliente>(this.urdlEndPointPost, cliente, { headers: this.httpHeaders });
+    return this.http.post<Cliente>(this.urlEndPointPost, cliente, { headers: this.httpHeaders });
   }
 
+  //Metodo para obtener un cliente por id
   getCliente(id): Observable<Cliente> {
     return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`);
-
-}
+  }
+  //Metodo para actualizar un cliente
+  update(cliente: Cliente): Observable<Cliente> {
+    return this.http.put<Cliente>(`${this.urlEndPointPut}/${cliente.id}`, cliente, { headers: this.httpHeaders })
+  }
+  //Metodo para eliminar un cliente
+  delete(id: number): Observable<Cliente> {
+    return this.http.delete<Cliente>(`${this.urlEndPointDelete}/${id}`, { headers: this.httpHeaders })
+  }
 }

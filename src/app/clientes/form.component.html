@@ -1,18 +1,36 @@
+<ul class="alert alert-danger" *ngIf="errores?.length > 0">
+  <li *ngFor="let err of errores">
+    {{ err }}
+  </li>
+</ul>
+
 <div class="card bg-dark text-white">
   <div class="card-header">{{ titulo }}</div>
   <div class="card-body">
-    <form >
+    <form>
       <div class="form-group row">
-        <label class="col-form-label col-sm-2">Nombre</label>
+        <label for="nombre" class="col-form-label col-sm-2">Nombre</label>
         <div class="col-sm-6">
           <input
             type="text"
             for="nombre"
             class="form-control mb-2"
             placeholder="Ingrese su nombre"
-            [(ngModel)]= "cliente.nombre"
+            [(ngModel)]="cliente.nombre"
             name="nombre"
+            #nombre="ngModel"
+            required
+            minlength="4"
           />
+          <div
+            class="alert alert-danger mt-2"
+            *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+          >
+            <div *ngIf="nombre.errors.required">Nombre es Requerido.</div>
+            <div *ngIf="nombre.errors.minlength">
+              Nombre debe tener al menos 4 caracteres.
+            </div>
+          </div>
         </div>
       </div>
       <div class="form-group row">
@@ -25,7 +43,16 @@
             type="text"
             class="form-control mb-2"
             placeholder="Ingrese su apellido"
+            #apellido="ngModel"
+            required
           />
+
+          <div
+            class="alert alert-danger mt-2"
+            *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)"
+          >
+            <div *ngIf="apellido.errors.required">Apellido es Requerido.</div>
+          </div>
         </div>
       </div>
       <div class="form-group row">
@@ -38,16 +65,37 @@
             type="email"
             class="form-control"
             placeholder="Ingrese su email"
+            #email="ngModel"
+            required
+            email
           />
+
+          <div
+            class="alert alert-danger mt-2"
+            *ngIf="email.invalid && (email.dirty || email.touched)"
+          >
+            <div *ngIf="email.errors.required">Email es requerido</div>
+            <div *ngIf="email.errors.email">
+              Email debe tener un formato valido.
+            </div>
+          </div>
         </div>
         <div class="form-group row">
-        <div class="col-sm-6">
-            <button class="btn btn-primary" role="button" (click) = 'create()' *ngIf="!cliente.id else elseBlock">Crear</button>
+          <div class="col-sm-6">
+            <button
+              class="btn btn-primary"
+              role="button"
+              (click)="create()"
+              *ngIf="!cliente.id; else elseBlock"
+            >
+              Crear
+            </button>
             <ng-template #elseBlock>
-              <button class="btn btn-primary" role="button" (click) = 'update()'>Actualizar</button>
+              <button class="btn btn-primary" role="button" (click)="update()">
+                Actualizar
+              </button>
             </ng-template>
-
-        </div>
+          </div>
         </div>
       </div>
     </form>
